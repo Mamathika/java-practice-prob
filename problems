@@ -1,0 +1,876 @@
+ARRAY
+1.Array Subset:
+class Solution {
+    public boolean isSubset(int a\[], int b\[]) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        // Count frequencies of a\[]
+        for(int i=0; i<a.length; i++){
+
+            map.put(a[i], map.getOrDefault(a\[i], 0) + 1);
+        }
+        // Check each element in b\[] with available count
+        for(int i=0; i<b.length; i++){
+            if(map.getOrDefault(b[i],0) == 0){
+                return false; // not present or no remaining count
+            } else {
+                map.put(b[i], map.get(b[i]) - 1); // reduce count
+            }
+        }
+        return true;
+    }
+}
+
+2.**Check Equal Arrays:**
+
+class Solution {
+    public static boolean checkEqual(int[] a, int[] b) {
+        // code here
+        if(a.length!=b.length) return false;
+        Arrays.sort(a);
+        Arrays.sort(b);
+            for(int j=0;j<a.length;j++){
+                if(a[j]!=b[j]){
+                    return false;
+                }
+            }
+        return true;
+    }
+}
+
+
+3.Rotate Array by One:
+
+Input: arr\[] = \[1, 2, 3, 4, 5]
+Output: \[5, 1, 2, 3, 4]
+Explanation: If we rotate arr by one position in clockwise 5 come to the front and remaining those are shifted to the end.**
+Input: arr\[] = \[9, 8, 7, 6, 4, 2, 1, 3]
+Output: \[3, 9, 8, 7, 6, 4, 2, 1]
+Explanation: After rotating clock-wise 3 comes in first position.
+
+class Solution {
+  public void rotate(int[] arr) {
+     int n=arr.length;
+      int last=arr[n-1];
+     for(int i=n-1;i>0;i--){
+         arr[i]=arr[i-1];
+      }
+       arr[0]=last;
+   }
+}
+
+
+
+4.Rotate array
+Given an array 'arr' with 'n' elements, the task is to rotate the array to the left by 'k' steps, where 'k' is non-negative.
+Example:
+'arr '= \[1,2,3,4,5]**
+'k' = 1  rotated array = \[2,3,4,5,1]
+'k' = 2  rotated array = \[3,4,5,1,2]
+'k' = 3  rotated array = \[4,5,1,2,3] and so on.
+
+import java.util.ArrayList;
+public class Solution {
+ 	public static ArrayList<Integer> rotateArray(ArrayList<Integer> arr, int k) {
+          int n=arr.size();
+          k=k%n;
+         ArrayList<Integer> rotated=new ArrayList<>();
+         for(int i=0;i<n;i++)
+        {
+          rotated.add(arr.get((i+k)%n));
+      }
+        return rotated;
+    }
+ }
+
+5.Sort 0s, 1s and 2s:
+
+Input: arr[] = [0, 1, 2, 0, 1, 2]
+Output: [0, 0, 1, 1, 2, 2]
+Explanation: 0s 1s and 2s are segregated into ascending order.
+
+it has a time complexity:
+class Solution {
+    public void sort012(int[] arr) {
+        // code here
+        for(int i=0;i<arr.length;i++){
+            for(int j=i+1;j<arr.length;j++)
+            if(arr[i]>arr[j]){
+                int temp=arr[i];
+                arr[i]=arr[j];
+                arr[j]=temp;
+            }
+        }
+ 
+    }
+}
+optimal:
+
+class Solution {
+    public void sort012(int[] arr) {
+        // code here
+        int n=arr.length;
+        int low=0,mid=0,high=n-1;
+       while(mid<=high){
+            if(arr[mid]==0){
+                int temp=arr[low];
+                arr[low]=arr[mid];
+                arr[mid]=temp;
+                low++;
+                mid++;
+            }
+            else if(arr[mid]==1){
+                mid++;
+            }
+            else{
+                int temp=arr[mid];
+                arr[mid]=arr[high];
+                arr[high]=temp;
+                high--;
+            }
+        }
+    }
+}
+
+6.Find the Duplicate Number:
+
+class Solution {
+    public int findDuplicate(int[] nums) {
+        Arrays.sort(nums);
+    for(int i=0;i<nums.length-1;i++){
+        if(nums[i]==nums[i+1]){
+             return nums[i];
+        }
+ 
+    }
+       return -1;
+    }
+}
+
+7.Array Search:
+class Solution {
+    public int search(int arr[], int x) {
+        // code here
+        for(int i=0;i<arr.length;i++)
+        {
+            if(arr[i]==x)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+}
+
+8.Third largest element
+
+class Solution {
+    int thirdLargest(int arr[]) {
+        // Your code here
+        if(arr.length<3) return -1;
+        int fLargest = Integer.MIN_VALUE;
+        int sLargest = Integer.MIN_VALUE;
+        int tLargest = Integer.MIN_VALUE;
+        for(int i=0;i<arr.length;i++)
+        {
+            if(arr[i]>fLargest)
+           {
+                tLargest = sLargest;
+                sLargest = fLargest;
+                fLargest = arr[i];
+            }
+            else if(arr[i]>sLargest)
+            {
+                tLargest = sLargest;
+                sLargest = arr[i];
+            }
+            else if(arr[i]>tLargest)
+            {
+                tLargest = arr[i];
+            }
+ 
+        }
+        return (tLargest == Integer.MIN_VALUE)?-1:tLargest;
+    }
+}
+
+9.Count the triplets: space complex
+
+class Solution {
+    int countTriplet(int arr[]) {
+        // code here
+        int count=0;
+        int n=arr.length;
+        HashSet<Integer>set=new HashSet<>();
+        for(int i=0;i<n;i++){
+            set.add(arr[i]);
+        }
+ 
+ 
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                int sum=arr[i]+arr[j];
+               if(set.contains(sum)){
+                count++;
+               }
+            }
+ 
+        }
+ 
+        return count;
+    }
+}
+
+time complexity
+
+class Solution {
+    int countTriplet(int arr[]) {
+        // code here
+        int count=0;
+        int n=arr.length;
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n-2;j++){
+                for(k=0;k<n;k++){
+            if(arr[i]+arr[j]==arr[k]){
+                int sum=arr[k];
+                count++;
+            }
+                }
+        }
+        }
+        return count;
+    }
+}
+optimize
+
+class Solution {
+    int countTriplet(int arr[]) {
+        // code here
+        Arrays.sort(arr);
+        int count=0;
+        int n=arr.length;
+        for (int k = n - 1; k >= 2; k--) {
+            int i = 0;
+            int j = k - 1;
+
+            while (i < j) {
+                int sum = arr[i] + arr[j];
+
+                if (sum == arr[k]) {
+                    count++;
+                    i++;
+                    j--;
+                } else if (sum < arr[k]) {
+                    i++;
+                } else {
+                    j--;
+                }
+            }
+ 
+        }
+            return count;
+        }
+ 
+    }
+10.Union of Arrays with Duplicates
+
+class Solution {
+    public static ArrayList<Integer> findUnion(int[] a, int[] b) {
+        // code here
+       HashSet<Integer>num=new HashSet<>();
+       for(int i=0;i<a.length;i++){
+ 
+            num.add(a[i]);
+       }
+       for(int j=0;j<b.length;j++){
+           num.add(b[j]);
+ 
+       }
+       return new ArrayList<>(num);
+    }
+}
+
+11.count inversions:BETTER
+
+class Solution {
+    static int inversionCount(int arr[]) {
+        // Code Here
+        int count=0;
+        for(int i=0;i<arr.length-1;i++){
+            for(int j=i+1;j<arr.length;j++){
+                if(arr[i]>arr[j]){
+                    count++;
+                }
+            }
+        }
+        return count;
+ 
+    }
+}
+
+2D Array:
+12.Search a 2D Matrix:
+
+class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        for(int i=0;i<matrix.length;i++){ //row
+            for(int j=0;j<matrix[i].length;j++){ //column(find how many col are there in row[i])
+               if(matrix[i][j]==target)
+               {
+                return true;
+               }
+            }
+        }
+        return false;
+    }
+}
+
+13.Rotate by 90 degree:
+
+class Solution {
+    public void rotateMatrix(int[][] mat) {
+        int n=mat.length;
+        for(int i=0;i<mat.length;i++){
+            for(int j=i+1;j<mat[i].length;j++){
+                int temp=mat[i][j];
+                mat[i][j]=mat[j][i];
+                mat[j][i]=temp;
+            }
+        }
+ 
+      for(int j=0;j<n;j++){
+           int top=0;int bottom=n-1;
+      while(top<bottom){
+          int temp=mat[top][j];
+          mat[top][j]=mat[bottom][j];
+          mat[bottom][j]=temp;
+          top++;
+          bottom--;
+      }
+      }
+    }
+}
+14.Set Matrix Zeroes:
+ class Solution {
+    public void setZeroes(int[][] matrix) {
+        int m = matrix.length, n = matrix[0].length;
+        boolean firstRow = false, firstCol = false;
+        for (int i = 0; i < m; i++) {
+            if (matrix[i][0] == 0) firstCol = true;
+        }
+        for (int j = 0; j < n; j++) {
+            if (matrix[0][j] == 0) firstRow = true;
+        }
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                if (matrix[i][j] == 0) {
+                    matrix[i][0] = 0;
+                    matrix[0][j] = 0;
+                }
+            }
+        }
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                if (matrix[i][0] == 0 || matrix[0][j] == 0) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+        if (firstCol) {
+            for (int i = 0; i < m; i++) matrix[i][0] = 0;
+        }
+        if (firstRow) {
+            for (int j = 0; j < n; j++) matrix[0][j] = 0;
+        }
+    }
+}
+
+15.Rotate Each Row of Matrix K Times:
+class Solution {
+    int[][] rotateMatrix(int k, int mat[][]) {
+        int n = mat.length;
+        int m = mat[0].length;
+        k = k % m; 
+        for (int i = 0; i < n; i++) {
+         
+            reverse(mat[i], 0, k - 1);
+            reverse(mat[i], k, m - 1);
+            reverse(mat[i], 0, m - 1);
+        }
+        return mat;
+    }
+    void reverse(int[] row, int start, int end) {
+        while (start < end) {
+            int temp = row[start];
+            row[start] = row[end];
+            row[end] = temp;
+            start++;
+            end--;
+        }
+    }
+}
+
+
+RECURSION:
+
+16.nth Fibonacci number:
+class Solution {
+    public int nthFibonacci(int n) {
+        // code here
+       if(n==0) return 0;
+       if(n==1) return 1;
+       return  nthFibonacci(n-1)+ nthFibonacci(n-2);
+    }
+}
+
+17.Factorial
+class Solution {
+    // Function to calculate factorial of a number.
+    int factorial(int n) {
+    if(n==0){
+        return 1;
+       
+    }
+     return n*factorial(n-1);
+        
+    }
+}
+18.Check if a number is prime or not:
+
+import java.util.Scanner;
+
+class prime {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n=sc.nextInt();
+        boolean isprime = true;
+        if(n<=1){
+            isprime=false;
+        }
+        else{
+        for(int i=2;i<n;i++){
+            if(n%i==0){
+               isprime=false;
+               break;
+            }
+        }
+        }
+ 
+            System.out.println( n+ isprime ? "prime num":"not a prime");
+ 
+            }
+    }
+
+output:
+5
+primenum
+19.Prime numbers in a given range:
+import java.util.Scanner;
+class primeInRange {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int start=sc.nextInt();
+        int end=sc.nextInt();
+        for(int num=start;num<=end;num++){
+              boolean isPrimeNumInRange=true;
+        if(num<=1){
+            continue;
+        }
+            for(int j=2;j<=num/2;j++){
+                if(num%j==0){
+                     isPrimeNumInRange=false;
+                     break;
+ 
+                }
+
+            }
+           if(isPrimeNumInRange){
+              System.out.print(num+" ");
+        }
+ 
+        }
+    }
+}
+output:
+1
+100
+2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97
+
+20.Move zero at end:
+import java.util.*;
+class Solution {
+    public static void main(String args[]) {
+        Scanner s=new Scanner(System.in);
+        int size = s.nextInt();
+        int arr[]=new int[size];
+        for(int i=0;i<size;i++){
+            arr[i]=s.nextInt();
+        }
+        int index=0;
+        for(int i=0;i<size;i++){
+            {
+                if(arr[i]!=0){
+                arr[index]=arr[i];
+                index++;
+                }
+            }
+        }
+                for(int i=index;i<size;i++){
+                    arr[i]=0;
+                }
+            
+            for(int i=0;i<size;i++){
+                System.out.println(arr[i]);
+            }
+        
+        
+    }
+}
+21.Leader:
+import java.util.Scanner;
+ class leader
+  {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int size = sc.nextInt();
+        int arr[]=new int[size];
+        
+        for(int i=0;i<size;i++){
+            arr[i]=sc.nextInt();
+        }
+        int maxright=arr[size-1];
+        System.out.println(maxright);
+        for(int i=size-2;i>=0;i--){
+            if(arr[i]>maxright){
+            maxright=arr[i];
+            System.out.print(maxright);
+            }
+
+        }
+        
+        
+    }
+  }
+ 22.Adjacent Swap:
+ import java.util.*;
+class Solution {
+    public static void main(String args[]) {
+        Scanner s=new Scanner(System.in);
+        int size = s.nextInt();
+        int arr[]=new int[size];
+        for(int i=0;i<size;i++){
+            arr[i]=s.nextInt();
+        }
+        for(int i=0;i<size-1;i+=2){
+            int temp=arr[i];
+            arr[i]=arr[i+1];
+            arr[i+1]=temp;
+           
+        }
+
+        for(int i=0;i<size;i++){
+            System.out.print(arr[i]+" ");
+        }
+       
+       
+    }
+}
+23.Armstrong num:
+import java.util.Scanner;
+ class armstrong
+  {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int num = sc.nextInt();
+        int original = num;
+        int sum = 0;
+
+        int n = 0, temp = num;
+        while (temp > 0) {
+            temp = temp / 10;
+            n++;
+        }
+        
+        while (temp > 0) {
+            int digit = temp % 10;
+            sum += Math.pow(digit, n);
+            temp = temp / 10;
+        }
+
+        if (sum == original) {
+            System.out.println(original + " is an Armstrong number");
+        } else {
+            System.out.println(original + " is not an Armstrong number");
+        }
+    }
+}
+24.Butterfly Pattern
+import java.util.*;
+ class diamondStarPattern{
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        int num = s.nextInt();
+        for(int i=1;i<=num;i++){
+            for(int j=1;j<=i;j++){
+                System.out.print("* ");
+            }
+            for(int j=1;j<=(num-i)*2;j++)
+            {
+                System.out.print("  ");
+            }
+            for(int j=1;j<=i;j++){
+                System.out.print("* ");
+            }
+
+            System.out.println("  ");
+        }
+            for(int i=1;i<=num;i++){
+                for(int j=1;j<=num-i+1;j++){
+                    System.out.print("* ");
+                }
+                for(int j=1;j<=2*i-2;j++){
+                    System.out.print("  ");
+                }
+                for(int j=1;j<=num-i+1;j++){
+                    System.out.print("* ");
+                }
+            System.out.println("  ");   
+        }
+        
+    }
+    }
+ 25.Diamond Star pattern
+ import java.util.*;
+ class diamondStarPattern{
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        int num = s.nextInt();
+        for(int i=1;i<=num;i++){
+            for(int j=1;j<=num-i;j++){
+                System.out.print("  ");
+            }
+            for(int j=1;j<=2*i-1;j++){
+                System.out.print("* ");
+            }
+            System.out.println("  ");
+        }
+            for(int i=1;i<num;i++){
+            for(int j=1;j<=i;j++){
+                System.out.print("  ");
+            }
+            for(int j=1;j<=(num-i)*2-1;j++){
+                System.out.print("* ");
+            }
+            System.out.println("  ");
+        }
+    }
+ }
+26.Hollow Patter:
+import java.util.*;
+ class hallowpattern{
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        int n = s.nextInt();
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=n-i;j++)
+            { 
+              System.out.print(" "); 
+            }
+            for(int j=1;j<=2*i-1;j++){
+                if(i==n||j==1||j==2*i-1){
+                System.out.print("*");
+                }
+                else{
+                    System.out.print(" ");
+                }
+            }
+            System.out.println(" ");
+
+        }
+    }
+ }
+ 27.Max num:
+ import java.util.Scanner;
+public class max
+{
+    public static void main(String args[])
+    {
+    Scanner  scan = new Scanner(System.in);
+    int size = scan.nextInt();
+    int arr[] = new int[size];
+    for(int i=0;i<size;i++)
+    {
+        arr[i]=scan.nextInt();
+    }
+    for(int j=0;j<size;j++)
+    {
+        int lastdigit = arr[i]%10;
+        int firstdigit=num;
+        while(num>10)
+    {
+        firstdigit = num/10;
+    }
+    }
+    if(firstdigit==lastdigit)
+    {
+        System.out.print(arr[i]+ " ");
+    }
+    
+
+
+    }
+}
+28.Mirror Image Triangle:
+
+import java.util.*;
+ class mirrorImageTrianglePattern{
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        int n = s.nextInt();
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=i-1;j++){
+                System.out.print(" ");
+            }
+            for(int j=i;j<=n;j++){
+                System.out.print(j+" ");
+            }
+            System.out.println(" ");
+        }
+        for(int i=1;i<n;i++){
+            for(int j=1;j<=n-i-1;j++){
+                System.out.print(" ");
+            }
+            for(int j=n-i;j<=n;j++){
+                System.out.print(j +" ");
+            }
+            System.out.println(" ");
+        }
+    }
+ }
+ 29.0dd or even:
+ import java.util.Scanner;
+ class oddoreven
+{
+    public static void main(String args[])
+    {
+        Scanner s = new Scanner(System.in);
+        int num=s.nextInt();
+       
+        if(num%2==0)
+        {
+            System.out.println("even");
+        }
+        else{
+            System.out.println("odd");
+        }
+        
+    }
+}
+30.Palindrome:
+import java.util.Scanner;
+ class palindrome
+{
+    public static void main(String args[])
+    {
+        Scanner s = new Scanner(System.in);
+        int start=s.nextInt();
+        int end=s.nextInt();
+        
+        for(int i=start;i<=end;i++)
+        {
+        int original = i;
+        int temp = original;
+        int rev=0;
+        while(temp>0)
+        {
+            int digit = temp%10;
+            rev = rev*10+digit;
+            temp = temp/10;
+        }
+        if(original==rev)
+        {
+            System.out.println(original + " palindrome");
+
+        }
+        else{
+            System.out.println(original + " not a palindrome");
+        }
+        
+        }
+        }
+    }
+31.Palindrome Triangle pattern:
+ import java.util.*;
+ class palindromeTriangle{
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        int num = s.nextInt();
+        for(int i=1;i<=num;i++){
+            for(int j=1;j<=num-i;j++){
+                System.out.print("  ");
+            }
+            for(int j=i;j>=1;j--){
+                System.out.print(j+" ");
+            }
+            for(int j=2;j<=i;j++){
+                System.out.print(j+ " ");
+            }
+            System.out.println("  ");
+        }
+        
+    }
+}
+32.Perfect num:
+import java.util.Scanner;
+ class perfectnum
+{
+    public static void main(String args[])
+    {
+        Scanner s = new Scanner(System.in);
+       int num=s.nextInt();
+        int sum=0;
+        for(int i=1;i<num;i++)
+        {
+        if(num%i==0)
+        {
+            sum+=i;
+        }
+        }
+        if(sum==num)
+        {
+            System.out.println("perfect num");
+        }
+        else
+        {
+            System.out.println("not a perfect num");
+        }
+        }
+   
+    }
+33.PrimeInRange   
+import java.util.Scanner;
+class primeInRange {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int start=sc.nextInt();
+        int end=sc.nextInt();
+        for(int num=start;num<=end;num++){
+              boolean isPrimeNumInRange=true;
+        if(num<=1){
+            continue;
+        }
+            for(int j=2;j<=num/2;j++){
+                if(num%j==0){
+                     isPrimeNumInRange=false;
+                     break;
+                    
+                }
+            }
+           if(isPrimeNumInRange){
+              System.out.print(num+" ");
+        }
+       
+        }
+    }
+}
+ 
+
